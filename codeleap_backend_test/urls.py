@@ -25,5 +25,8 @@ router.register(r"posts", views.PostViewSet)
 
 urlpatterns = [
     path("", include(router.urls)),
+    path("posts/<int:pk>/likes/", views.LikeView.as_view(), name="post-likes"),
+    path("posts/<int:pk>/comments/", views.CommentView.as_view(), name="post-comments"),
+    path("posts/<int:pk>/comments/<int:comment_id>/", views.CommentRetrieveUpdateDeleteView.as_view(), name="post-comments-get-delete"),
     path('admin/', admin.site.urls),
 ]
