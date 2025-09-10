@@ -6,6 +6,7 @@ from rest_framework.views import APIView
 from .models import Post, Comment
 from .serializers import PostSerializer, CommentSerializer
 from .filters import PostFilter
+from .paginations import CommentPagination
 
 # Create your views here.
 
@@ -64,8 +65,13 @@ class LikeView(APIView):
 class CommentView(generics.ListCreateAPIView):
     queryset = Comment.objects.all().order_by("-created_datetime")
     http_method_names = ["get", "post", "delete"]
+    pagination_class = CommentPagination
     serializer_class = CommentSerializer
-
+    
+    def get_queryset(self):
+        postId = self.kwargs["pk"]
+        return Comment.objects.filter(post = postId).order_by("-created_datetime")
+    
     def post(self, request, pk):
         post = Post.objects.get(pk = pk)
         comment = Comment.objects.create(
@@ -80,9 +86,6 @@ class CommentView(generics.ListCreateAPIView):
             "content": comment.content
         }, status = status.HTTP_201_CREATED)
     
-    def get(self, request, pk):
-        comments = Comment.objects.filter(post = pk).values("id", "username", "content")
-        return Response(comments)
 
 
 class CommentRetrieveUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):

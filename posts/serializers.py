@@ -1,5 +1,4 @@
-from rest_framework import serializers, status
-from rest_framework.response import Response
+from rest_framework import serializers
 from .models import Post, Comment
 
 # Bonus --v
@@ -29,6 +28,6 @@ class PostSerializer(serializers.HyperlinkedModelSerializer):
             'username': { 'required': True }
         }
 
-    def validate(self, data):
-        data.pop("username", None)
-        return data
+    def update(self, instance, validated_data):
+        validated_data.pop("username", None)
+        return super().update(instance, validated_data)
