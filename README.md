@@ -3,6 +3,12 @@
 
 CodeLeap Backend Test - A Django REST Framework API for managing CRUD operations.
 
+## Demo
+
+Below is a link to a working deploy on Render.com (Expires in October 10, 2025)
+
+- https://codeleap-backend-test.onrender.com/posts/
+
 ## Tech Stack
 
 **Server:** Python, Django, Django REST Framework, SQLParse
